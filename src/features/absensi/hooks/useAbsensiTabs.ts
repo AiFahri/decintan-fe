@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-export type AbsensiTab = 'lokasi' | 'laporan' | 'pengaturan';
-export type LaporanPeriod = 'daily' | 'weekly' | 'monthly';
+export type AbsensiTab = "lokasi" | "laporan" | "pengaturan";
+export type LaporanPeriod = "daily" | "weekly" | "monthly";
 
 interface UseAbsensiTabsReturn {
   activeTab: AbsensiTab;
@@ -11,8 +11,8 @@ interface UseAbsensiTabsReturn {
 }
 
 export const useAbsensiTabs = (): UseAbsensiTabsReturn => {
-  const [activeTab, setActiveTab] = useState<AbsensiTab>('lokasi');
-  const [laporanPeriod, setLaporanPeriod] = useState<LaporanPeriod>('daily');
+  const [activeTab, setActiveTab] = useState<AbsensiTab>("lokasi");
+  const [laporanPeriod, setLaporanPeriod] = useState<LaporanPeriod>("daily");
 
   return {
     activeTab,

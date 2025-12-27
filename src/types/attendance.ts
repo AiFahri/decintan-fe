@@ -1,4 +1,10 @@
-export type AttendanceStatus = 'hadir' | 'telat' | 'izin' | 'sakit' | 'alpha' | 'lembur';
+export type AttendanceStatus =
+  | "hadir"
+  | "telat"
+  | "izin"
+  | "sakit"
+  | "alpha"
+  | "lembur";
 
 export interface Employee {
   id: string;
@@ -60,15 +66,15 @@ export interface AttendanceMapPin {
   employeeName: string;
   lat: number;
   lng: number;
-  type: 'checkIn' | 'checkOut';
+  type: "checkIn" | "checkOut";
   time: string;
 }
 
-export type ReportPeriod = 'daily' | 'weekly' | 'monthly';
+export type ReportPeriod = "daily" | "weekly" | "monthly";
 
 export interface AttendanceFilters {
   date?: string;
   search?: string;
   title?: string;
-  status?: AttendanceStatus | '';
+  status?: AttendanceStatus | "";
 }

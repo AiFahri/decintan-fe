@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 interface Tab {
   id: string;
@@ -12,7 +12,11 @@ interface TabSwitcherProps {
   onChange: (tabId: string) => void;
 }
 
-export const TabSwitcher = ({ tabs, activeTab, onChange }: TabSwitcherProps) => {
+export const TabSwitcher = ({
+  tabs,
+  activeTab,
+  onChange,
+}: TabSwitcherProps) => {
   return (
     <div className="flex flex-wrap gap-3 mb-6">
       {tabs.map((tab) => (
@@ -23,8 +27,8 @@ export const TabSwitcher = ({ tabs, activeTab, onChange }: TabSwitcherProps) => 
             flex items-center gap-2 px-6 py-6 rounded-2xl font-medium transition-all duration-200
             ${
               activeTab === tab.id
-                ? 'bg-[#2b3d9d] text-white shadow-lg scale-105'
-                : 'bg-white text-gray-700 hover:bg-primary-50 hover:text-primary-700 shadow-sm'
+                ? "bg-[#2b3d9d] text-white shadow-lg scale-105"
+                : "bg-white text-gray-700 hover:bg-primary-50 hover:text-primary-700 shadow-sm"
             }
           `}
         >

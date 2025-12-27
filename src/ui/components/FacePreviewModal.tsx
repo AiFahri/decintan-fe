@@ -1,5 +1,5 @@
-import { X } from 'lucide-react';
-import { useEffect } from 'react';
+import { X } from "lucide-react";
+import { useEffect } from "react";
 
 interface FacePreviewModalProps {
   isOpen: boolean;
@@ -8,20 +8,25 @@ interface FacePreviewModalProps {
   onClose: () => void;
 }
 
-export const FacePreviewModal = ({ isOpen, imageUrl, employeeName, onClose }: FacePreviewModalProps) => {
+export const FacePreviewModal = ({
+  isOpen,
+  imageUrl,
+  employeeName,
+  onClose,
+}: FacePreviewModalProps) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === "Escape") onClose();
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
     };
   }, [isOpen, onClose]);
 
@@ -37,7 +42,9 @@ export const FacePreviewModal = ({ isOpen, imageUrl, employeeName, onClose }: Fa
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">{employeeName} - Face ID</h3>
+          <h3 className="text-lg font-semibold text-gray-900">
+            {employeeName} - Face ID
+          </h3>
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
