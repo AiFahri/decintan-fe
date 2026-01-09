@@ -2,10 +2,13 @@ import { Download, Search, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Avatar } from "@/ui/components/Avatar";
 import { FacePreviewModal } from "@/ui/components/FacePreviewModal";
+import { ConfirmationModal } from "@/ui/components/ConfirmationModal";
+import { OvertimeActionButtons } from "./OvertimeActionButtons";
 import type {
   AttendanceDaily,
   Employee,
   AttendanceFilters,
+  AttendanceStatus,
 } from "@/types/attendance";
 import { exportToExcel } from "@/utils/excelExport";
 
@@ -36,6 +39,7 @@ export const ReportTableDaily = ({
   attendance,
   employees,
 }: ReportTableDailyProps) => {
+  const [attendanceData, setAttendanceData] = useState(attendance);
   const [filters, setFilters] = useState<AttendanceFilters>({
     search: "",
     status: "",
@@ -50,8 +54,13 @@ export const ReportTableDaily = ({
     name: "",
   });
 
-  // Filter logic
-  const filteredData = attendance.filter((item) => {
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    type: "approve" | "reject" | null;
+    recordId: string | null;
+  }>({ isOpen: false, type: null, recordId: null });
+
+  const filteredData = attendanceData.filter((item) => {
     const employee = employees.find((e) => e.id === item.employeeId);
     if (!employee) return false;
 
@@ -80,6 +89,43 @@ export const ReportTableDaily = ({
       excelData,
       `Laporan_Harian_${new Date().toISOString().split("T")[0]}`
     );
+  };
+
+  // Handle approve/reject izin/sakit
+  const handleApprove = (id: string) => {
+    setConfirmModal({ isOpen: true, type: "approve", recordId: id });
+  };
+
+  const handleReject = (id: string) => {
+    setConfirmModal({ isOpen: true, type: "reject", recordId: id });
+  };
+
+  const handleConfirmAction = () => {
+    if (!confirmModal.recordId) return;
+
+    setAttendanceData((prev) =>
+      prev.map((record) =>
+        record.id === confirmModal.recordId
+          ? {
+              ...record,
+              status:
+                confirmModal.type === "approve"
+                  ? ((record.status === "izin"
+                      ? "izin"
+                      : "sakit") as AttendanceStatus)
+                  : ("alpha" as AttendanceStatus),
+            }
+          : record
+      )
+    );
+
+    alert(
+      confirmModal.type === "approve"
+        ? "✅ Izin/Sakit disetujui"
+        : "❌ Izin/Sakit ditolak"
+    );
+
+    setConfirmModal({ isOpen: false, type: null, recordId: null });
   };
 
   return (
@@ -154,6 +200,9 @@ export const ReportTableDaily = ({
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                   Jam Pulang
                 </th>
+                <th className="px-4 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Aksi
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -222,6 +271,17 @@ export const ReportTableDaily = ({
                     <td className="px-4 py-3 text-sm text-gray-900">
                       {item.checkOutTime || "-"}
                     </td>
+                    <td className="px-4 py-3">
+                      <div className="flex justify-center">
+                        {(item.status === "izin" ||
+                          item.status === "sakit") && (
+                          <OvertimeActionButtons
+                            onApprove={() => handleApprove(item.id)}
+                            onReject={() => handleReject(item.id)}
+                          />
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 );
               })}
@@ -239,6 +299,29 @@ export const ReportTableDaily = ({
         imageUrl={faceModal.imageUrl}
         employeeName={faceModal.name}
         onClose={() => setFaceModal({ ...faceModal, isOpen: false })}
+      />
+
+      <ConfirmationModal
+        isOpen={confirmModal.isOpen}
+        title={
+          confirmModal.type === "approve"
+            ? "Setujui Izin/Sakit?"
+            : "Tolak Izin/Sakit?"
+        }
+        message={
+          confirmModal.type === "approve"
+            ? "Apakah Anda yakin ingin menyetujui izin/sakit ini?"
+            : "Apakah Anda yakin ingin menolak izin/sakit ini?"
+        }
+        confirmText={
+          confirmModal.type === "approve" ? "Ya, Setujui" : "Ya, Tolak"
+        }
+        cancelText="Batal"
+        confirmVariant={confirmModal.type === "approve" ? "success" : "danger"}
+        onConfirm={handleConfirmAction}
+        onCancel={() =>
+          setConfirmModal({ isOpen: false, type: null, recordId: null })
+        }
       />
     </div>
   );
