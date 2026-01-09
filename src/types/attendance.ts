@@ -26,7 +26,9 @@ export interface AttendanceDaily {
   checkInLng?: number;
   checkOutLat?: number;
   checkOutLng?: number;
+  checkOutLocationText?: string; // For individual report
   faceImageUrl?: string;
+  overtimeReason?: string; // For individual report
 }
 
 export interface AttendanceSummary {
