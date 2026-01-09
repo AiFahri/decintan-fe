@@ -1,4 +1,4 @@
-import { MapPin, Clock, Settings } from "lucide-react";
+import { MapPin, Clock, Settings, ClipboardCheck } from "lucide-react";
 import { DashboardLayout } from "@/ui/components/layouts/DashboardLayout";
 import { InfoBanner } from "@/ui/components/InfoBanner";
 import { TabSwitcher } from "@/ui/components/TabSwitcher";
@@ -6,6 +6,7 @@ import { useAbsensiTabs } from "@/features/absensi/hooks/useAbsensiTabs";
 import { LokasiTab } from "@/features/absensi/tabs/LokasiTab";
 import { LaporanTab } from "@/features/absensi/tabs/LaporanTab";
 import { PengaturanTab } from "@/features/absensi/tabs/PengaturanTab";
+import { LemburTab } from "@/features/absensi/tabs/LemburTab";
 import type { AbsensiTab } from "@/features/absensi/hooks/useAbsensiTabs";
 
 const tabs = [
@@ -24,12 +25,18 @@ const tabs = [
     label: "Pengaturan",
     icon: <Settings className="w-6 h-6" />,
   },
+  {
+    id: "lembur" as AbsensiTab,
+    label: "Lembur",
+    icon: <ClipboardCheck className="w-6 h-6" />,
+  },
 ];
 
 const breadcrumbsMap: Record<AbsensiTab, string[]> = {
   lokasi: ["Aplikasi", "Absensi", "Lokasi"],
   laporan: ["Aplikasi", "Absensi", "Laporan"],
   pengaturan: ["Aplikasi", "Absensi", "Pengaturan"],
+  lembur: ["Aplikasi", "Absensi", "Lembur"],
 };
 
 export default function AbsensiPage() {
@@ -49,6 +56,7 @@ export default function AbsensiPage() {
       {activeTab === "lokasi" && <LokasiTab />}
       {activeTab === "laporan" && <LaporanTab />}
       {activeTab === "pengaturan" && <PengaturanTab />}
+      {activeTab === "lembur" && <LemburTab />}
     </DashboardLayout>
   );
 }
