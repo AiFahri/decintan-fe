@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export type AbsensiTab = "lokasi" | "laporan" | "pengaturan";
+export type AbsensiTab = "lokasi" | "laporan" | "pengaturan" | "lembur";
 export type LaporanPeriod = "daily" | "weekly" | "monthly";
 
 interface UseAbsensiTabsReturn {
