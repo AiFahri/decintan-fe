@@ -1,12 +1,12 @@
-export type OrderStatus = 'processed' | 'rejected' | 'approved';
-export type ReportType = 'supplier' | 'proyek' | 'barang';
+export type OrderStatus = "processed" | "rejected" | "approved";
+export type ReportType = "supplier" | "proyek" | "barang";
 
 export interface PurchasingOrder {
   id: string;
   itemName: string;
   supplier: string;
   qty: number;
-  poDate: string; 
+  poDate: string;
   destination: string;
   note: string;
   pricePerUnit: number;
@@ -26,7 +26,7 @@ export interface InventoryStock {
 
 export interface MonitorLoan {
   id: string;
-  loanDate: string; 
+  loanDate: string;
   itemName: string;
   picName: string;
   qtyBorrowed: number;
@@ -45,9 +45,9 @@ export interface ReportDetail {
   pricePerUnit: number;
   totalPrice: number;
   arrivalDate: string;
-  proofOfGoods: string; 
-  proofOfTransfer: string; 
-  deliveryNote: string; 
+  proofOfGoods: string;
+  proofOfTransfer: string;
+  deliveryNote: string;
 }
 
 export interface ReportFilter {
