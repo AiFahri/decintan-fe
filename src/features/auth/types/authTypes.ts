@@ -1,4 +1,13 @@
-export type UserRole = 'Karyawan' | 'Admin HR';
+export type UserRole = "karyawan" | "admin";
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  jabatan: string;
+  avatarUrl?: string;
+}
 
 export interface LoginFormData {
   email: string;
@@ -19,4 +28,3 @@ export interface RegisterFormData {
 export type AuthFormErrors = {
   [key: string]: string | undefined;
 };
-
