@@ -4,6 +4,7 @@ import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
 import AbsensiPage from "@/pages/admin/AbsensiPage";
+import { PurchasingPage } from "@/pages/admin/PurchasingPage";
 import { PlaceholderPage } from "@/pages/admin/PlaceholderPage";
 
 const AppRoutes = () => {
@@ -16,15 +17,7 @@ const AppRoutes = () => {
 
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/absensi" element={<AbsensiPage />} />
-        <Route
-          path="/admin/purchasing"
-          element={
-            <PlaceholderPage
-              title="Purchasing"
-              breadcrumbs={["Aplikasi", "Purchasing"]}
-            />
-          }
-        />
+        <Route path="/admin/purchasing" element={<PurchasingPage />} />
         <Route
           path="/admin/surat"
           element={
