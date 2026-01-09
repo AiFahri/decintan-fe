@@ -29,7 +29,7 @@ function ConfirmationModal({
   return (
     <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 p-4">
       <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
-        <div className="bg-primary-600 px-6 py-4">
+        <div className="bg-[#2b3d9d] px-6 py-4">
           <h3 className="text-lg font-semibold text-white">
             Konfirmasi Perubahan
           </h3>
@@ -50,7 +50,7 @@ function ConfirmationModal({
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 rounded-xl bg-primary-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700"
+            className="flex-1 rounded-xl bg-[#2b3d9d] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700"
           >
             Simpan Perubahan
           </button>
@@ -77,7 +77,6 @@ export function AccessMatrixModal({ isOpen, onClose }: AccessMatrixModalProps) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [, setRefreshKey] = useState(0);
 
-  // Track changes
   const [pendingChanges, setPendingChanges] = useState<
     Array<{
       userId: string;
@@ -87,7 +86,7 @@ export function AccessMatrixModal({ isOpen, onClose }: AccessMatrixModalProps) {
     }>
   >([]);
 
-  const usersPerPage = 10; // Increased for better scrolling
+  const usersPerPage = 10;
 
   if (!isOpen) return null;
 
@@ -180,7 +179,7 @@ export function AccessMatrixModal({ isOpen, onClose }: AccessMatrixModalProps) {
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
         <div className="w-full max-w-6xl h-[90vh] overflow-hidden rounded-2xl bg-white shadow-2xl flex flex-col">
-          <div className="flex items-center justify-between bg-primary-600 px-6 py-4 shrink-0">
+          <div className="flex items-center justify-between bg-[#2b3d9d] px-6 py-4 shrink-0">
             <div className="flex items-center gap-3">
               <h3 className="text-lg font-semibold text-white">
                 Pengaturan Akses
@@ -201,7 +200,7 @@ export function AccessMatrixModal({ isOpen, onClose }: AccessMatrixModalProps) {
           </div>
 
           {showInfoBanner && (
-            <div className="relative bg-primary-600 px-6 py-3 text-white shrink-0">
+            <div className="relative bg-[#2b3d9d] px-6 py-3 text-white shrink-0">
               <div className="flex items-center justify-between">
                 <span className="text-sm">
                   <span className="font-semibold">Info Terbaru</span> Dari
@@ -328,7 +327,7 @@ export function AccessMatrixModal({ isOpen, onClose }: AccessMatrixModalProps) {
 
               <button
                 onClick={handleSaveChanges}
-                className="rounded-xl bg-primary-600 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-xl bg-[#2b3d9d] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={pendingChanges.length === 0}
               >
                 Simpan Perubahan
