@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ReportTableDaily } from "../components/ReportTableDaily";
 import { ReportTableSummary } from "../components/ReportTableSummary";
+import { IndividualReportTab } from "./IndividualReportTab";
 import {
   employeesMock,
   attendanceDailyMock,
@@ -8,7 +9,7 @@ import {
   attendanceMonthlySummaryMock,
 } from "@/data/attendance.mock";
 
-type LaporanPeriod = "daily" | "weekly" | "monthly";
+type LaporanPeriod = "daily" | "weekly" | "monthly" | "individual";
 
 export const LaporanTab = () => {
   const [period, setPeriod] = useState<LaporanPeriod>("daily");
@@ -46,6 +47,16 @@ export const LaporanTab = () => {
         >
           Bulanan
         </button>
+        <button
+          onClick={() => setPeriod("individual")}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            period === "individual"
+              ? "bg-[#2b3d9d] text-white"
+              : "bg-white text-gray-700 hover:bg-gray-100"
+          }`}
+        >
+          Laporan Pribadi
+        </button>
       </div>
 
       {period === "daily" && (
@@ -68,6 +79,7 @@ export const LaporanTab = () => {
           period="monthly"
         />
       )}
+      {period === "individual" && <IndividualReportTab />}
     </div>
   );
 };

@@ -1,15 +1,17 @@
-import { useState, useMemo } from 'react';
-import { Search, Calendar } from 'lucide-react';
-import { attendanceDailyMock, employeesMock } from '@/data/attendance.mock';
-import { Avatar } from '@/ui/components/Avatar';
-import { IndividualReportModal } from '../components/IndividualReportModal';
-import type { Employee } from '@/types/attendance';
+import { useState, useMemo } from "react";
+import { Search, Calendar } from "lucide-react";
+import { attendanceDailyMock, employeesMock } from "@/data/attendance.mock";
+import { Avatar } from "@/ui/components/Avatar";
+import { IndividualReportModal } from "../components/IndividualReportModal";
+import type { Employee } from "@/types/attendance";
 
 export function IndividualReportTab() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [dateFrom, setDateFrom] = useState('2026-01-01');
-  const [dateTo, setDateTo] = useState('2026-01-31');
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dateFrom, setDateFrom] = useState("2026-01-01");
+  const [dateTo, setDateTo] = useState("2026-01-31");
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null
+  );
 
   const filteredEmployees = useMemo(() => {
     return employeesMock.filter((emp) =>
@@ -96,11 +98,7 @@ export function IndividualReportTab() {
               onClick={() => handleEmployeeClick(employee)}
               className="group flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-all hover:border-primary-500 hover:shadow-md"
             >
-              <Avatar
-                src={employee.avatarUrl}
-                alt={employee.name}
-                size="lg"
-              />
+              <Avatar src={employee.avatarUrl} alt={employee.name} size="lg" />
               <div className="flex-1 min-w-0">
                 <p className="truncate font-medium text-gray-900 group-hover:text-primary-600">
                   {employee.name}
@@ -108,9 +106,7 @@ export function IndividualReportTab() {
                 <p className="truncate text-sm text-gray-500">
                   {employee.title}
                 </p>
-                <p className="mt-1 text-xs text-gray-400">
-                  Klik untuk detail
-                </p>
+                <p className="mt-1 text-xs text-gray-400">Klik untuk detail</p>
               </div>
             </button>
           ))
