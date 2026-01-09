@@ -21,9 +21,9 @@ export interface UserPermission {
 // Mock users dengan permissions
 let usersPermissions: UserPermission[] = [
   {
-    userId: '1',
-    userName: 'Admin - Syifa',
-    position: 'Administrator',
+    userId: "1",
+    userName: "Admin - Syifa",
+    position: "Administrator",
     permissions: {
       purchasing: {
         satuan: true,
@@ -38,9 +38,9 @@ let usersPermissions: UserPermission[] = [
     },
   },
   {
-    userId: '2',
-    userName: 'Admin - Bella',
-    position: 'Administrator',
+    userId: "2",
+    userName: "Admin - Bella",
+    position: "Administrator",
     permissions: {
       purchasing: {
         satuan: false,
@@ -55,9 +55,9 @@ let usersPermissions: UserPermission[] = [
     },
   },
   {
-    userId: '3',
-    userName: 'Staff - Andi',
-    position: 'Staff Purchasing',
+    userId: "3",
+    userName: "Staff - Andi",
+    position: "Staff Purchasing",
     permissions: {
       purchasing: {
         satuan: true,
@@ -72,9 +72,9 @@ let usersPermissions: UserPermission[] = [
     },
   },
   {
-    userId: '4',
-    userName: 'Manager - Budi',
-    position: 'Manager',
+    userId: "4",
+    userName: "Manager - Budi",
+    position: "Manager",
     permissions: {
       purchasing: {
         satuan: true,
@@ -89,9 +89,9 @@ let usersPermissions: UserPermission[] = [
     },
   },
   {
-    userId: '5',
-    userName: 'Staff - Citra',
-    position: 'Staff Gudang',
+    userId: "5",
+    userName: "Staff - Citra",
+    position: "Staff Gudang",
     permissions: {
       purchasing: {
         satuan: false,
@@ -115,8 +115,8 @@ export function getAllUsersPermissions(): UserPermission[] {
 // Update user permission for specific feature
 export function updateUserPermission(
   userId: string,
-  module: 'purchasing',
-  feature: keyof UserPermission['permissions']['purchasing'],
+  module: "purchasing",
+  feature: keyof UserPermission["permissions"]["purchasing"],
   value: boolean
 ): boolean {
   const userIndex = usersPermissions.findIndex((u) => u.userId === userId);

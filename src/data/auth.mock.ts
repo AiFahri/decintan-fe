@@ -1,30 +1,30 @@
-import type { User } from '@/features/auth/types/authTypes';
+import type { User } from "@/features/auth/types/authTypes";
 
 // Mock users database
 export const mockUsers: User[] = [
   {
-    id: 'user-001',
-    name: 'Syifa',
-    email: 'admin@decintan.com',
-    role: 'admin',
-    jabatan: 'Admin',
-    avatarUrl: 'https://i.pravatar.cc/150?img=47',
+    id: "user-001",
+    name: "Syifa",
+    email: "admin@decintan.com",
+    role: "admin",
+    jabatan: "Admin",
+    avatarUrl: "https://i.pravatar.cc/150?img=47",
   },
   {
-    id: 'user-002',
-    name: 'Budi Santoso',
-    email: 'budi@decintan.com',
-    role: 'karyawan',
-    jabatan: 'Staff IT',
-    avatarUrl: 'https://i.pravatar.cc/150?img=12',
+    id: "user-002",
+    name: "Budi Santoso",
+    email: "budi@decintan.com",
+    role: "karyawan",
+    jabatan: "Staff IT",
+    avatarUrl: "https://i.pravatar.cc/150?img=12",
   },
   {
-    id: 'user-003',
-    name: 'Siti Nurhaliza',
-    email: 'siti@decintan.com',
-    role: 'karyawan',
-    jabatan: 'HRD Manager',
-    avatarUrl: 'https://i.pravatar.cc/150?img=45',
+    id: "user-003",
+    name: "Siti Nurhaliza",
+    email: "siti@decintan.com",
+    role: "karyawan",
+    jabatan: "HRD Manager",
+    avatarUrl: "https://i.pravatar.cc/150?img=45",
   },
 ];
 
@@ -34,7 +34,7 @@ export let currentUser: User | null = mockUsers[0]; // Default: Admin
 // Mock login function
 export const mockLogin = (email: string, password: string): User | null => {
   const user = mockUsers.find((u) => u.email === email);
-  if (user && password === 'password123') {
+  if (user && password === "password123") {
     currentUser = user;
     return user;
   }
