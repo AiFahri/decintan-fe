@@ -7,6 +7,7 @@ import AbsensiPage from "@/pages/admin/AbsensiPage";
 import { PlaceholderPage } from "@/pages/admin/PlaceholderPage";
 import EmployeeDashboardPage from "@/pages/employee/EmployeeDashboardPage";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { PurchasingPage } from "@/pages/admin/PurchasingPage";
 
 const AppRoutes = () => {
   return (
@@ -45,10 +46,7 @@ const AppRoutes = () => {
           path="/admin/purchasing"
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
-              <PlaceholderPage
-                title="Purchasing"
-                breadcrumbs={["Aplikasi", "Purchasing"]}
-              />
+              <PurchasingPage />
             </ProtectedRoute>
           }
         />
