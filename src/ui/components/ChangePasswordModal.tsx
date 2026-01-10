@@ -165,7 +165,7 @@ export function ChangePasswordModal({
             disabled={!isFormValid}
             className={`w-full rounded-xl px-4 py-2.5 text-sm font-medium text-white transition-colors ${
               isFormValid
-                ? "bg-primary-600 hover:bg-primary-700"
+                ? "bg-[#2b3d9d] hover:bg-primary-700"
                 : "bg-gray-300 cursor-not-allowed"
             }`}
           >

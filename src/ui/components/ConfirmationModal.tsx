@@ -24,7 +24,7 @@ export function ConfirmationModal({
   if (!isOpen) return null;
 
   const variantStyles = {
-    primary: "bg-primary-600 hover:bg-primary-700 text-white",
+    primary: "bg-[#2b3d9d] hover:bg-primary-700 text-white",
     danger: "bg-red-600 hover:bg-red-700 text-white",
     success: "bg-green-600 hover:bg-green-700 text-white",
   };

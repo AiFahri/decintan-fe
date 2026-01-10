@@ -29,7 +29,7 @@ export function HistoryModal({
         className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl bg-white shadow-2xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between bg-primary-600 px-6 py-4 text-white">
+        <div className="flex items-center justify-between bg-[#2b3d9d] px-6 py-4 text-white">
           <div>
             <h3 className="text-lg font-semibold">History</h3>
             <p className="text-sm text-primary-100 mt-0.5">
@@ -105,7 +105,7 @@ export function HistoryModal({
                         <div className="flex justify-center">
                           <button
                             onClick={() => onUserClick(activity.userId)}
-                            className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-600 text-white transition-all hover:bg-primary-700 hover:shadow-md"
+                            className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#2b3d9d] text-white transition-all hover:bg-primary-700 hover:shadow-md"
                             aria-label="Lihat detail"
                           >
                             <ChevronRight className="h-5 w-5" />

@@ -64,7 +64,7 @@ export function UserActivityDetailModal({
         className="w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-2xl bg-white shadow-2xl flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between bg-primary-600 px-6 py-4 text-white">
+        <div className="flex items-center justify-between bg-[#2b3d9d] px-6 py-4 text-white">
           <div className="flex items-center gap-4">
             <button
               onClick={onBack}

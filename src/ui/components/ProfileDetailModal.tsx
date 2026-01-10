@@ -80,7 +80,7 @@ export function ProfileDetailModal({
         <div className="border-t border-gray-200 px-6 py-4">
           <button
             onClick={onEditClick}
-            className="w-full rounded-xl bg-primary-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700"
+            className="w-full rounded-xl bg-[#2b3d9d] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700"
           >
             Edit profile
           </button>
