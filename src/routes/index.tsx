@@ -5,6 +5,8 @@ import RegisterPage from "@/pages/auth/RegisterPage";
 import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
 import AbsensiPage from "@/pages/admin/AbsensiPage";
 import { PlaceholderPage } from "@/pages/admin/PlaceholderPage";
+import EmployeeDashboardPage from "@/pages/employee/EmployeeDashboardPage";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 const AppRoutes = () => {
   return (
@@ -14,48 +16,84 @@ const AppRoutes = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-        <Route path="/admin/absensi" element={<AbsensiPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["karyawan"]}>
+              <EmployeeDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/absensi"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AbsensiPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/admin/purchasing"
           element={
-            <PlaceholderPage
-              title="Purchasing"
-              breadcrumbs={["Aplikasi", "Purchasing"]}
-            />
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <PlaceholderPage
+                title="Purchasing"
+                breadcrumbs={["Aplikasi", "Purchasing"]}
+              />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/surat"
           element={
-            <PlaceholderPage
-              title="Surat"
-              breadcrumbs={["Aplikasi", "Surat"]}
-            />
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <PlaceholderPage
+                title="Surat"
+                breadcrumbs={["Aplikasi", "Surat"]}
+              />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/keuangan"
           element={
-            <PlaceholderPage
-              title="Keuangan"
-              breadcrumbs={["Aplikasi", "Keuangan"]}
-            />
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <PlaceholderPage
+                title="Keuangan"
+                breadcrumbs={["Aplikasi", "Keuangan"]}
+              />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/progres"
           element={
-            <PlaceholderPage
-              title="Progres"
-              breadcrumbs={["Aplikasi", "Progres"]}
-            />
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <PlaceholderPage
+                title="Progres"
+                breadcrumbs={["Aplikasi", "Progres"]}
+              />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/gaji"
           element={
-            <PlaceholderPage title="Gaji" breadcrumbs={["Aplikasi", "Gaji"]} />
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <PlaceholderPage
+                title="Gaji"
+                breadcrumbs={["Aplikasi", "Gaji"]}
+              />
+            </ProtectedRoute>
           }
         />
 
