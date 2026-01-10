@@ -45,7 +45,7 @@ export default function AbsensiPage() {
   return (
     <DashboardLayout breadcrumbs={breadcrumbsMap[activeTab]}>
       <InfoBanner>
-        <strong>Info Terbaru</strong> Dari perusahaan
+        <strong>Info Terbaru Dari Perusahaan</strong> 
       </InfoBanner>
 
       <TabSwitcher

@@ -16,8 +16,8 @@ export const InfoBanner = ({
   if (!isVisible) return null;
 
   return (
-    <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-start justify-between gap-4 mb-6">
-      <div className="flex-1 text-sm text-blue-900">{children}</div>
+    <div className="bg-[#2b3d9d] border border-blue-200 rounded-2xl p-4 flex items-start justify-between gap-4 mb-6">
+      <div className="flex-1 text-sm text-white">{children}</div>
       {dismissible && (
         <button
           onClick={() => setIsVisible(false)}

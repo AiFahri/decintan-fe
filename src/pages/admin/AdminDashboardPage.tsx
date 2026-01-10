@@ -14,7 +14,7 @@ export default function AdminDashboardPage() {
   return (
     <DashboardLayout breadcrumbs={["Aplikasi", "Dashboard"]}>
       <InfoBanner>
-        <strong>Info Terbaru Dari perusahaan</strong>
+        <strong>Info Terbaru Dari Perusahaan</strong> 
       </InfoBanner>
 
       <Card padding="lg" className="mb-6">
