@@ -1,6 +1,5 @@
 import type { User } from "@/features/auth/types/authTypes";
 
-// Mock users database
 export const mockUsers: User[] = [
   {
     id: "user-001",
@@ -29,9 +28,8 @@ export const mockUsers: User[] = [
 ];
 
 // Mock current logged in user (for demo purposes)
-export let currentUser: User | null = mockUsers[0]; // Default: Admin
+export let currentUser: User | null = mockUsers[1]; // Default: Karyawan
 
-// Mock login function
 export const mockLogin = (email: string, password: string): User | null => {
   const user = mockUsers.find((u) => u.email === email);
   if (user && password === "password123") {
@@ -41,17 +39,14 @@ export const mockLogin = (email: string, password: string): User | null => {
   return null;
 };
 
-// Mock logout function
 export const mockLogout = () => {
   currentUser = null;
 };
 
-// Mock get current user
 export const getCurrentUser = (): User | null => {
   return currentUser;
 };
 
-// Mock update profile
 export const updateUserProfile = (
   userId: string,
   updates: Partial<User>
@@ -67,7 +62,6 @@ export const updateUserProfile = (
   return null;
 };
 
-// Mock change password
 export const changePassword = (
   userId: string,
   newPassword: string
