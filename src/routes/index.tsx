@@ -6,6 +6,8 @@ import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
 import AbsensiPage from "@/pages/admin/AbsensiPage";
 import { PlaceholderPage } from "@/pages/admin/PlaceholderPage";
 import EmployeeDashboardPage from "@/pages/employee/EmployeeDashboardPage";
+import EmployeeAttendancePage from "@/pages/employee/EmployeeAttendancePage";
+import OvertimeFormPage from "@/pages/employee/OvertimeFormPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PurchasingPage } from "@/pages/admin/PurchasingPage";
 
@@ -17,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
+        {/* Employee Routes */}
         <Route
           path="/dashboard"
           element={
@@ -25,7 +28,24 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/absensi"
+          element={
+            <ProtectedRoute allowedRoles={["karyawan"]}>
+              <EmployeeAttendancePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/absensi/lembur"
+          element={
+            <ProtectedRoute allowedRoles={["karyawan"]}>
+              <OvertimeFormPage />
+            </ProtectedRoute>
+          }
+        />
 
+        {/* Admin Routes */}
         <Route
           path="/admin/dashboard"
           element={
