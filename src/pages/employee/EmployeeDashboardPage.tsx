@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Download } from "lucide-react";
-import { DashboardLayout } from "@/ui/components/layouts/DashboardLayout";
+import { EmployeeDashboardLayout } from "@/ui/components/layouts/EmployeeDashboardLayout";
 import { InfoBanner } from "@/ui/components/InfoBanner";
 import { Button } from "@/ui/components/Button";
 import { CalendarWidget } from "@/features/employee/components/CalendarWidget";
@@ -19,7 +19,7 @@ export default function EmployeeDashboardPage() {
   const tasks = getTasksByMonth(
     employeeId,
     currentMonth.getFullYear(),
-    currentMonth.getMonth() + 1
+    currentMonth.getMonth() + 1,
   );
   const performanceData = getPerformanceData(employeeId);
 
@@ -28,7 +28,7 @@ export default function EmployeeDashboardPage() {
   };
 
   return (
-    <DashboardLayout breadcrumbs={["Dashboard"]}>
+    <EmployeeDashboardLayout breadcrumbs={["Dashboard"]}>
       <div className="space-y-6">
         <InfoBanner>
           Selamat datang di Dashboard Karyawan! Lihat tugas dan performa kerja
@@ -67,6 +67,6 @@ export default function EmployeeDashboardPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </EmployeeDashboardLayout>
   );
 }
