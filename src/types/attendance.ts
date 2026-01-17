@@ -29,6 +29,10 @@ export interface AttendanceDaily {
   checkOutLocationText?: string; // For individual report
   faceImageUrl?: string;
   overtimeReason?: string; // For individual report
+  // New fields for employee-side
+  leaveReason?: string; // Alasan izin/sakit
+  leaveDocumentUrl?: string; // Bukti dokumen izin/sakit
+  leaveStatus?: "pending" | "approved" | "rejected"; // Status pengajuan
 }
 
 export interface AttendanceSummary {
