@@ -7,6 +7,7 @@ import AbsensiPage from "@/pages/admin/AbsensiPage";
 import { PlaceholderPage } from "@/pages/admin/PlaceholderPage";
 import EmployeeDashboardPage from "@/pages/employee/EmployeeDashboardPage";
 import EmployeeAttendancePage from "@/pages/employee/EmployeeAttendancePage";
+import EmployeePurchasingPage from "@/pages/employee/EmployeePurchasingPage";
 import OvertimeFormPage from "@/pages/employee/OvertimeFormPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PurchasingPage } from "@/pages/admin/PurchasingPage";
@@ -44,6 +45,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/purchasing" element={<EmployeePurchasingPage />} />
 
         {/* Admin Routes */}
         <Route

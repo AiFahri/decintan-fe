@@ -1,5 +1,16 @@
 import { useState } from "react";
-import { X, Box, Settings, Building2, Package, ShoppingCart, FileCheck, CheckSquare, Gem, FileText } from "lucide-react";
+import {
+  X,
+  Box,
+  Settings,
+  Building2,
+  Package,
+  ShoppingCart,
+  FileCheck,
+  CheckSquare,
+  Gem,
+  FileText,
+} from "lucide-react";
 import { EmployeeDashboardLayout } from "@/ui/components/layouts/EmployeeDashboardLayout";
 import { InfoBanner } from "@/ui/components/InfoBanner";
 import { SatuanTab } from "@/features/purchasing-employee/tabs/SatuanTab";
@@ -44,9 +55,7 @@ export default function EmployeePurchasingPage() {
       <div className="space-y-6">
         {showBanner && (
           <div className="relative">
-            <InfoBanner>
-              Pengingattenggat dan tugas (Notifikasi)
-            </InfoBanner>
+            <InfoBanner>Pengingattenggat dan tugas (Notifikasi)</InfoBanner>
             <button
               onClick={() => setShowBanner(false)}
               className="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors"
