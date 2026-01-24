@@ -1,5 +1,6 @@
-export type OrderStatus = "processed" | "rejected" | "approved";
+export type OrderStatus = "processed" | "rejected" | "approved" | "completed";
 export type ReportType = "supplier" | "proyek" | "barang";
+export type AssetLoanStatus = "borrowed" | "returned";
 
 export interface PurchasingOrder {
   id: string;
@@ -12,6 +13,56 @@ export interface PurchasingOrder {
   pricePerUnit: number;
   totalPrice: number;
   status: OrderStatus;
+}
+
+// NEW: For dynamic order entry (Pemesanan tab)
+export interface OrderItem {
+  itemName: string;
+  qty: number;
+  unit: string;
+  pricePerUnit: number;
+  totalPrice: number;
+  note?: string;
+}
+
+// NEW: Master Data - Unit/Satuan
+export interface UnitMaster {
+  id: string;
+  name: string;
+  createdAt: string;
+}
+
+// NEW: Master Data - Project
+export interface ProjectMaster {
+  id: string;
+  name: string;
+  createdAt: string;
+}
+
+// NEW: Master Data - Supplier
+export interface SupplierMaster {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
+  createdAt: string;
+}
+
+// NEW: Asset Loan Management
+export interface AssetLoan {
+  id: string;
+  loanDate: string;
+  picName: string;
+  projectName: string;
+  itemName: string;
+  qty: number;
+  unit: string;
+  status: AssetLoanStatus;
+  note?: string;
+  returnDate?: string;
+  missingQty?: number;
+  missingEvidenceUrl?: string;
+  createdAt: string;
 }
 
 export interface InventoryStock {
