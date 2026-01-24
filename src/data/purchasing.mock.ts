@@ -3,7 +3,47 @@ import type {
   InventoryStock,
   MonitorLoan,
   ReportDetail,
+  UnitMaster,
+  AssetLoan,
 } from "@/types/purchasing";
+
+// NEW: Master Data - Units
+export const unitsMock: UnitMaster[] = [
+  { id: "unit-1", name: "Pcs", createdAt: "2025-01-01T00:00:00Z" },
+  { id: "unit-2", name: "Kg", createdAt: "2025-01-01T00:00:00Z" },
+  { id: "unit-3", name: "Sak", createdAt: "2025-01-01T00:00:00Z" },
+  { id: "unit-4", name: "Liter", createdAt: "2025-01-01T00:00:00Z" },
+  { id: "unit-5", name: "M²", createdAt: "2025-01-01T00:00:00Z" },
+];
+
+// NEW: Asset Loans
+export const assetLoansMock: AssetLoan[] = [
+  {
+    id: "loan-1",
+    loanDate: "2026-01-15",
+    picName: "Budi Santoso",
+    projectName: "Perumahan laguna",
+    itemName: "Mesin Bor",
+    qty: 2,
+    unit: "Pcs",
+    status: "borrowed",
+    note: "Untuk pekerjaan blok A",
+    createdAt: "2026-01-15T08:00:00Z",
+  },
+  {
+    id: "loan-2",
+    loanDate: "2026-01-10",
+    picName: "Agus Wijaya",
+    projectName: "Perumahan mekar",
+    itemName: "Tangga Aluminium",
+    qty: 1,
+    unit: "Pcs",
+    status: "returned",
+    returnDate: "2026-01-17",
+    note: "Dikembalikan lengkap",
+    createdAt: "2026-01-10T09:00:00Z",
+  },
+];
 
 export const purchasingOrdersMock: PurchasingOrder[] = [
   {
@@ -176,18 +216,58 @@ export const monitorLoansMock: MonitorLoan[] = [
   },
 ];
 
-export const suppliersMock = [
-  { id: "toko-a", name: "Toko A" },
-  { id: "toko-b", name: "Toko B" },
-  { id: "toko-c", name: "Toko C" },
-  { id: "toko-d", name: "Toko D" },
+export const suppliersMock: import("@/types/purchasing").SupplierMaster[] = [
+  {
+    id: "toko-a",
+    name: "Toko A",
+    phone: "081234567890",
+    address: "Jl. Contoh No. 1",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  {
+    id: "toko-b",
+    name: "Toko B",
+    phone: "081234567891",
+    address: "Jl. Contoh No. 2",
+    createdAt: "2025-01-02T00:00:00.000Z",
+  },
+  {
+    id: "toko-c",
+    name: "Toko C",
+    phone: "081234567892",
+    address: "Jl. Contoh No. 3",
+    createdAt: "2025-01-03T00:00:00.000Z",
+  },
+  {
+    id: "toko-d",
+    name: "Toko D",
+    phone: "081234567893",
+    address: "Jl. Contoh No. 4",
+    createdAt: "2025-01-04T00:00:00.000Z",
+  },
 ];
 
-export const projectsMock = [
-  { id: "proj-1", name: "Perumahan Laguna" },
-  { id: "proj-2", name: "Perumahan Mekar" },
-  { id: "proj-3", name: "Perumahan Harmony" },
-  { id: "proj-4", name: "Perumahan Indah" },
+export const projectsMock: import("@/types/purchasing").ProjectMaster[] = [
+  {
+    id: "proj-1",
+    name: "Perumahan Laguna",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  {
+    id: "proj-2",
+    name: "Perumahan Mekar",
+    createdAt: "2025-01-02T00:00:00.000Z",
+  },
+  {
+    id: "proj-3",
+    name: "Perumahan Harmony",
+    createdAt: "2025-01-03T00:00:00.000Z",
+  },
+  {
+    id: "proj-4",
+    name: "Perumahan Indah",
+    createdAt: "2025-01-04T00:00:00.000Z",
+  },
 ];
 
 export const itemsMock = [
@@ -203,7 +283,7 @@ export function getReportDetails(
   _type: "supplier" | "proyek" | "barang",
   _entityId: string,
   _dateFrom: string,
-  _dateTo: string
+  _dateTo: string,
 ): ReportDetail[] {
   const baseData: ReportDetail[] = [
     {
@@ -252,7 +332,7 @@ export function getReportDetails(
 
 export function updateOrderStatus(
   orderId: string,
-  newStatus: "approved" | "rejected"
+  newStatus: "approved" | "rejected",
 ): boolean {
   const order = purchasingOrdersMock.find((o) => o.id === orderId);
   if (order) {
