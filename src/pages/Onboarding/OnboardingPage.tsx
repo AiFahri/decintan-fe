@@ -51,9 +51,9 @@ export default function OnboardingPage() {
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary-100 rounded-full blur-3xl opacity-20 -z-10"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-200 rounded-full blur-3xl opacity-20 -z-10"></div>
 
-      <div className="container-custom py-12 sm:py-16 lg:py-24 relative">
+      <div className="container-custom py-12 sm:py-16 lg:py-0 relative">
         <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-3 mb-4">
+          <div className="inline-flex items-center gap-3 mb-4 mt-6">
             <img
               src={logoDecintan}
               alt="Decintan Logo"
@@ -69,7 +69,6 @@ export default function OnboardingPage() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column - Copywriting */}
           <div className="text-center lg:text-left">
             <H1 className="mb-6 text-4xl sm:text-5xl lg:text-6xl leading-tight">
               Kelola Semua Aspek Perusahaan dalam{" "}

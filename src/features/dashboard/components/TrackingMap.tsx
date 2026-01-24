@@ -8,11 +8,10 @@ interface TrackingMapProps {
 export const TrackingMap = ({ pins }: TrackingMapProps) => {
   return (
     <div className="relative w-full h-64 lg:h-80 bg-gray-100 rounded-lg overflow-hidden">
-      <img
+      {/* <img
         src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/106.8456,-6.2088,13,0/600x400@2x?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw"
-        alt="Map placeholder"
         className="w-full h-full object-cover"
-      />
+      /> */}
 
       <div className="absolute inset-0 flex items-center justify-center">
         {pins.map((pin, index) => (
