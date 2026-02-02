@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Plus, Trash2, Camera, CheckCircle, XCircle } from "lucide-react";
 import { SuccessModal } from "@/ui/components/SuccessModal";
-import { projectsMock, suppliersMock, unitsMock } from "@/data/purchasing.mock";
+import { projectsMock, suppliersMock, unitsMock, fieldRequestsMock } from "@/data/purchasing.mock";
 
 type SubTab = "form" | "daftar";
 
 interface OrderItem {
   itemName: string;
-  projectId: string;
   qty: number;
-  unit: string;
   pricePerUnit: number;
   totalPrice: number;
   note: string;
@@ -20,45 +18,7 @@ interface OrderFormData {
   satuan: string;
   supplierId: string;
   projectId: string;
-  itemName: string;
 }
-
-interface OutgoingRequest {
-  id: string;
-  itemName: string;
-  requesterName: string;
-  qty: number;
-  poDate: string;
-  destination: string;
-  note: string;
-  evidencePhoto?: string;
-  status: "diproses" | "ditolak" | "disetujui";
-}
-
-// Mock data for outgoing requests
-const outgoingRequestsMock: OutgoingRequest[] = [
-  {
-    id: "req-1",
-    itemName: "Semen Portland",
-    requesterName: "Budi Santoso",
-    qty: 50,
-    poDate: "2026-01-20",
-    destination: "Proyek Gedung A",
-    note: "Urgent untuk pengecoran lantai 3",
-    status: "diproses",
-  },
-  {
-    id: "req-2",
-    itemName: "Besi Beton 12mm",
-    requesterName: "Ahmad Hidayat",
-    qty: 100,
-    poDate: "2026-01-18",
-    destination: "Proyek Tower B",
-    note: "Untuk struktur kolom",
-    evidencePhoto: "data:image/png;base64,iVBOR...",
-    status: "disetujui",
-  },
-];
 
 export function PermintaanTab() {
   const [activeSubTab, setActiveSubTab] = useState<SubTab>("form");
@@ -68,15 +28,12 @@ export function PermintaanTab() {
     satuan: "",
     supplierId: "",
     projectId: "",
-    itemName: "",
   });
 
   const [orderItems, setOrderItems] = useState<OrderItem[]>([
     {
       itemName: "",
-      projectId: "",
       qty: 0,
-      unit: "",
       pricePerUnit: 0,
       totalPrice: 0,
       note: "",
@@ -109,9 +66,7 @@ export function PermintaanTab() {
       ...orderItems,
       {
         itemName: "",
-        projectId: "",
         qty: 0,
-        unit: "",
         pricePerUnit: 0,
         totalPrice: 0,
         note: "",
@@ -145,10 +100,6 @@ export function PermintaanTab() {
       setError("Pilih proyek terlebih dahulu");
       return;
     }
-    if (!formData.itemName.trim()) {
-      setError("Nama barang harus diisi");
-      return;
-    }
 
     for (let i = 0; i < orderItems.length; i++) {
       const item = orderItems[i];
@@ -158,10 +109,6 @@ export function PermintaanTab() {
       }
       if (item.qty <= 0) {
         setError(`Baris ${i + 1}: Qty harus lebih dari 0`);
-        return;
-      }
-      if (!item.unit) {
-        setError(`Baris ${i + 1}: Satuan harus dipilih`);
         return;
       }
       if (item.pricePerUnit <= 0) {
@@ -180,14 +127,11 @@ export function PermintaanTab() {
       satuan: "",
       supplierId: "",
       projectId: "",
-      itemName: "",
     });
     setOrderItems([
       {
         itemName: "",
-        projectId: "",
         qty: 0,
-        unit: "",
         pricePerUnit: 0,
         totalPrice: 0,
         note: "",
@@ -232,7 +176,7 @@ export function PermintaanTab() {
 
       {activeSubTab === "form" && (
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 bg-white rounded-xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-white rounded-xl">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Tanggal
@@ -251,15 +195,20 @@ export function PermintaanTab() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Satuan
               </label>
-              <input
-                type="text"
+              <select
                 value={formData.satuan}
                 onChange={(e) =>
                   setFormData({ ...formData, satuan: e.target.value })
                 }
-                placeholder="Pcs, Kg, Unit..."
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
-              />
+              >
+                <option value="">Pilih Satuan</option>
+                {unitsMock.map((unit) => (
+                  <option key={unit.id} value={unit.name}>
+                    {unit.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
@@ -301,21 +250,6 @@ export function PermintaanTab() {
                 ))}
               </select>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nama Barang
-              </label>
-              <input
-                type="text"
-                value={formData.itemName}
-                onChange={(e) =>
-                  setFormData({ ...formData, itemName: e.target.value })
-                }
-                placeholder="Nama barang..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
-              />
-            </div>
           </div>
 
           <div className="overflow-x-auto bg-white rounded-xl p-4">
@@ -329,10 +263,7 @@ export function PermintaanTab() {
                     Nama Barang
                   </th>
                   <th className="px-3 py-2 text-left text-sm font-semibold text-gray-700 border">
-                    Proyek
-                  </th>
-                  <th className="px-3 py-2 text-left text-sm font-semibold text-gray-700 border">
-                    Satuan (Adjust)
+                    Qty (Jumlah)
                   </th>
                   <th className="px-3 py-2 text-left text-sm font-semibold text-gray-700 border">
                     Harga Satuan
@@ -366,36 +297,20 @@ export function PermintaanTab() {
                       />
                     </td>
                     <td className="px-3 py-2 border">
-                      <select
-                        value={item.projectId}
+                      <input
+                        type="number"
+                        value={item.qty || ""}
                         onChange={(e) =>
-                          updateOrderItem(index, "projectId", e.target.value)
-                        }
-                        className="w-32 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-900"
-                      >
-                        <option value="">Pilih</option>
-                        {projectsMock.map((project) => (
-                          <option key={project.id} value={project.id}>
-                            {project.name}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="px-3 py-2 border">
-                      <select
-                        value={item.unit}
-                        onChange={(e) =>
-                          updateOrderItem(index, "unit", e.target.value)
+                          updateOrderItem(
+                            index,
+                            "qty",
+                            parseFloat(e.target.value) || 0,
+                          )
                         }
                         className="w-24 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-900"
-                      >
-                        <option value="">Pilih</option>
-                        {unitsMock.map((unit) => (
-                          <option key={unit.id} value={unit.name}>
-                            {unit.name}
-                          </option>
-                        ))}
-                      </select>
+                        min="0"
+                        step="1"
+                      />
                     </td>
                     <td className="px-3 py-2 border">
                       <input
@@ -516,7 +431,7 @@ export function PermintaanTab() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {outgoingRequestsMock.length === 0 ? (
+                {fieldRequestsMock.length === 0 ? (
                   <tr>
                     <td
                       colSpan={9}
@@ -526,30 +441,30 @@ export function PermintaanTab() {
                     </td>
                   </tr>
                 ) : (
-                  outgoingRequestsMock.map((request) => (
+                  fieldRequestsMock.map((request) => (
                     <tr key={request.id} className="hover:bg-gray-50">
                       <td className="px-4 py-3 text-sm font-medium text-gray-900">
                         {request.itemName}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-700">
-                        {request.requesterName}
+                        {request.employeeName}
                       </td>
                       <td className="px-4 py-3 text-center">
                         <span className="inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700">
-                          {request.qty}
+                          {request.qty || "-"}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-700">
-                        {request.poDate}
+                        {request.date}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-700">
-                        {request.destination}
+                        {request.destination || request.projectName}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-700">
-                        {request.note}
+                        {request.note || "-"}
                       </td>
                       <td className="px-4 py-3 text-center">
-                        {request.evidencePhoto ? (
+                        {request.photoUrl ? (
                           <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                             <Camera className="w-5 h-5" />
                           </button>
@@ -560,18 +475,18 @@ export function PermintaanTab() {
                       <td className="px-4 py-3 text-center">
                         <span
                           className={`inline-flex rounded-full px-3 py-1 text-sm font-medium ${
-                            request.status === "disetujui"
+                            request.status === "approved"
                               ? "bg-green-100 text-green-700"
-                              : request.status === "ditolak"
+                              : request.status === "rejected"
                                 ? "bg-red-100 text-red-700"
                                 : "bg-yellow-100 text-yellow-700"
                           }`}
                         >
-                          {request.status === "disetujui"
+                          {request.status === "approved"
                             ? "Disetujui"
-                            : request.status === "ditolak"
+                            : request.status === "rejected"
                               ? "Ditolak"
-                              : "Diproses"}
+                              : "Pending"}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-center">
