@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Plus, Trash2, Camera, CheckCircle, XCircle } from "lucide-react";
 import { SuccessModal } from "@/ui/components/SuccessModal";
-import { projectsMock, suppliersMock, unitsMock, fieldRequestsMock } from "@/data/purchasing.mock";
+import {
+  projectsMock,
+  suppliersMock,
+  unitsMock,
+  fieldRequestsMock,
+} from "@/data/purchasing.mock";
 
 type SubTab = "form" | "daftar";
 
