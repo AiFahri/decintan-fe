@@ -108,3 +108,21 @@ export interface ReportFilter {
   dateFrom: string;
   dateTo: string;
 }
+
+export interface FieldRequest {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  date: string;
+  unit: string;
+  projectName: string;
+  itemName: string;
+  photoUrl: string;
+  status: "pending" | "approved" | "rejected";
+  createdAt: string;
+  qty?: number;
+  pricePerUnit?: number;
+  note?: string;
+  totalPrice?: number;
+  destination?: string;
+}
