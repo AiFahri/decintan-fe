@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Camera } from "lucide-react";
 import { CameraCaptureModal } from "@/ui/components/CameraCaptureModal";
 import { SuccessModal } from "@/ui/components/SuccessModal";
-import { projectsMock } from "@/data/purchasing.mock";
+import { projectsMock, fieldRequestsMock } from "@/data/purchasing.mock";
 
 interface ItemProposal {
   tanggal: string;
@@ -58,8 +58,22 @@ export function PengajuanTab() {
       return;
     }
 
-    // TODO: Submit to item proposals mock
-    console.log("Item Proposal Submitted:", formData);
+    const newRequest = {
+      id: `freq-${Date.now()}`,
+      employeeId: "user-current", // TODO: get from auth context
+      employeeName: "Current User", // TODO: get from auth context
+      date: formData.tanggal,
+      unit: formData.satuan,
+      projectName: formData.namaProyek,
+      itemName: formData.namaBarang,
+      photoUrl: formData.foto,
+      status: "pending" as const,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Push to shared mock data (visible in Barang Keluar > Daftar Pengajuan)
+    fieldRequestsMock.push(newRequest);
+    console.log("Field Request Submitted:", newRequest);
 
     setShowSuccess(true);
 

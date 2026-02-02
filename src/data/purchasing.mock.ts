@@ -5,6 +5,7 @@ import type {
   ReportDetail,
   UnitMaster,
   AssetLoan,
+  FieldRequest,
 } from "@/types/purchasing";
 
 // NEW: Master Data - Units
@@ -42,6 +43,54 @@ export const assetLoansMock: AssetLoan[] = [
     returnDate: "2026-01-17",
     note: "Dikembalikan lengkap",
     createdAt: "2026-01-10T09:00:00Z",
+  },
+];
+
+// NEW: Field Requests (Employee Purchasing - Pengajuan → Barang Keluar flow)
+export const fieldRequestsMock: FieldRequest[] = [
+  {
+    id: "freq-001",
+    employeeId: "user-002",
+    employeeName: "Budi Santoso",
+    date: "2026-01-20",
+    unit: "Pcs",
+    projectName: "Perumahan Laguna",
+    itemName: "Batu bata merah",
+    photoUrl:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    status: "pending",
+    createdAt: "2026-01-20T08:30:00",
+  },
+  {
+    id: "freq-002",
+    employeeId: "user-003",
+    employeeName: "Siti Rahma",
+    date: "2026-01-19",
+    unit: "Sak",
+    projectName: "Ruko Sentosa",
+    itemName: "Semen Gresik",
+    photoUrl:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    status: "approved",
+    createdAt: "2026-01-19T10:15:00",
+    qty: 50,
+    pricePerUnit: 75000,
+    totalPrice: 3750000,
+    destination: "Site Ruko Sentosa",
+    note: "Sudah diapprove, siap kirim",
+  },
+  {
+    id: "freq-003",
+    employeeId: "user-004",
+    employeeName: "Andi Wijaya",
+    date: "2026-01-18",
+    unit: "Kg",
+    projectName: "Perumahan Mekar",
+    itemName: "Paku 2 inch",
+    photoUrl:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    status: "rejected",
+    createdAt: "2026-01-18T14:20:00",
   },
 ];
 
