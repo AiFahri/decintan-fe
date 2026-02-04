@@ -10,20 +10,29 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Avatar } from "./Avatar";
+import { updateProfile, changePassword } from "@/api/endpoints/auth";
 import { ProfileDetailModal } from "./ProfileDetailModal";
 import { ProfileEditModal } from "./ProfileEditModal";
 import { ChangePasswordModal } from "./ChangePasswordModal";
 import { HistoryModal } from "./HistoryModal";
 import { UserActivityDetailModal } from "./UserActivityDetailModal";
 import { AccessMatrixModal } from "./AccessMatrixModal";
-import {
-  getCurrentUser,
-  updateUserProfile,
-  changePassword,
-} from "@/data/auth.mock";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { User as UserType } from "@/features/auth/types/authTypes";
+
+const extractKeyFromUrl = (urlOrKey: string): string => {
+  if (!urlOrKey.startsWith("http")) {
+    return urlOrKey;
+  }
+
+  const match = urlOrKey.match(/\/s3\/decintan\/(.+)$/);
+  if (match && match[1]) {
+    return match[1];
+  }
+
+  return urlOrKey;
+};
 
 interface TopbarProps {
   breadcrumbs: string[];
@@ -31,8 +40,7 @@ interface TopbarProps {
 }
 
 export const Topbar = ({ breadcrumbs, onMenuClick }: TopbarProps) => {
-  const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(getCurrentUser());
+  const { user: currentUser, logout, updateUser } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [modalState, setModalState] = useState<{
     profileDetail: boolean;
@@ -68,34 +76,74 @@ export const Topbar = ({ breadcrumbs, onMenuClick }: TopbarProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleProfileUpdate = (updates: Partial<UserType>) => {
-    if (currentUser) {
-      const updatedUser = updateUserProfile(currentUser.id, updates);
-      if (updatedUser) {
-        setCurrentUser(updatedUser);
-        alert("✅ Profile berhasil diupdate");
+  const handleProfileUpdate = async (updates: Partial<UserType>) => {
+    try {
+      let photoKey = "";
+
+      if (updates.avatarUrl && !updates.avatarUrl.includes("pravatar.cc")) {
+        photoKey = extractKeyFromUrl(updates.avatarUrl);
+      } else if (
+        currentUser?.avatarUrl &&
+        !currentUser.avatarUrl.includes("pravatar.cc")
+      ) {
+        photoKey = extractKeyFromUrl(currentUser.avatarUrl);
+      }
+
+      if (!photoKey) {
+        const shouldContinue = confirm(
+          "⚠️ Anda belum memiliki foto profil. Backend memerlukan foto profil untuk update.\n\n" +
+            "Silakan upload foto terlebih dahulu di modal Edit Profile.\n\n" +
+            "Tetap lanjutkan tanpa foto? (Mungkin akan error)",
+        );
+
+        if (!shouldContinue) {
+          return;
+        }
+      }
+
+      const payload = {
+        name: updates.name || currentUser?.name || "",
+        email: updates.email || currentUser?.email || "",
+        position: updates.jabatan || currentUser?.jabatan || "",
+        photo_url: photoKey,
+      };
+
+      const updated = await updateProfile(payload);
+      updateUser(updated);
+
+      alert("✅ Profile berhasil diupdate");
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message.includes("404")) {
+        alert(
+          "❌ Error 404: Photo file not found.\n\nBackend tidak dapat menemukan foto di server. Silakan upload foto baru.",
+        );
+      } else if (err instanceof Error && err.message.includes("400")) {
+        alert(
+          "❌ Error 400: Data tidak valid.\n\nPastikan semua field terisi dengan benar.",
+        );
+      } else {
+        alert("Gagal memperbarui profile. Silakan coba lagi.");
       }
     }
   };
 
-  const handlePasswordChange = (newPassword: string) => {
-    if (currentUser) {
-      const success = changePassword(currentUser.id, newPassword);
-      if (success) {
-        alert("✅ Password berhasil diubah");
-      }
+  const handlePasswordChange = async (newPassword: string) => {
+    try {
+      await changePassword(newPassword, newPassword);
+      alert("✅ Password berhasil diubah");
+    } catch {
+      alert("Gagal mengubah password. Silakan coba lagi.");
     }
   };
 
   const handleLogout = () => {
     if (confirm("Apakah Anda yakin ingin keluar?")) {
-      // Clear auth state
-      navigate("/login");
+      logout();
     }
   };
 
   if (!currentUser) {
-    return null; // Or redirect to login
+    return null;
   }
 
   const isAdmin = currentUser.role === "admin";

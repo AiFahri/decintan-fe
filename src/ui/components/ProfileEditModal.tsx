@@ -1,6 +1,8 @@
 import { X } from "lucide-react";
 import { useState } from "react";
 import type { User } from "@/features/auth/types/authTypes";
+import { useFileUpload } from "@/hooks/useFileUpload";
+import { sanitizeInput, validateFile } from "@/utils/security";
 
 interface ProfileEditModalProps {
   isOpen: boolean;
@@ -23,14 +25,28 @@ export function ProfileEditModal({
   });
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(
-    user.avatarUrl || null
+    user.avatarUrl || null,
   );
+
+  const { uploadFile, isUploading, uploadError } = useFileUpload();
+  const [isSaving, setIsSaving] = useState(false);
 
   if (!isOpen) return null;
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const validation = validateFile(file, {
+        maxSizeMB: 5,
+        allowedTypes: ["image/jpeg", "image/png", "image/jpg"],
+      });
+
+      if (!validation.isValid) {
+        alert(validation.message);
+        e.target.value = "";
+        return;
+      }
+
       setPhotoFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -40,19 +56,28 @@ export function ProfileEditModal({
     }
   };
 
-  const handleSubmit = () => {
-    const updates: Partial<User> = {
-      jabatan: formData.jabatan,
-      name: formData.name,
-      email: formData.email,
-    };
+  const handleSubmit = async () => {
+    setIsSaving(true);
 
-    if (photoPreview) {
-      updates.avatarUrl = photoPreview;
+    try {
+      const updates: Partial<User> = {
+        jabatan: sanitizeInput(formData.jabatan),
+        name: sanitizeInput(formData.name),
+        email: formData.email.trim().toLowerCase(),
+      };
+
+      if (photoFile) {
+        const publicUrl = await uploadFile(photoFile);
+        updates.avatarUrl = publicUrl;
+      }
+
+      onSave(updates);
+      onClose();
+    } catch {
+      alert(uploadError || "Gagal mengupdate profile. Silakan coba lagi.");
+    } finally {
+      setIsSaving(false);
     }
-
-    onSave(updates);
-    onClose();
   };
 
   return (
@@ -87,6 +112,7 @@ export function ProfileEditModal({
                 setFormData({ ...formData, jabatan: e.target.value })
               }
               className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+              disabled={isSaving || isUploading}
             />
           </div>
 
@@ -101,6 +127,7 @@ export function ProfileEditModal({
                 setFormData({ ...formData, name: e.target.value })
               }
               className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+              disabled={isSaving || isUploading}
             />
           </div>
 
@@ -115,6 +142,7 @@ export function ProfileEditModal({
                 setFormData({ ...formData, email: e.target.value })
               }
               className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+              disabled={isSaving || isUploading}
             />
           </div>
 
@@ -125,7 +153,8 @@ export function ProfileEditModal({
             <div className="flex items-center gap-4">
               <button
                 onClick={() => document.getElementById("photo-upload")?.click()}
-                className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                className="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isSaving || isUploading}
               >
                 Pilih Foto
               </button>
@@ -138,6 +167,7 @@ export function ProfileEditModal({
                 accept="image/*"
                 onChange={handlePhotoChange}
                 className="hidden"
+                disabled={isSaving || isUploading}
               />
             </div>
 
@@ -150,15 +180,30 @@ export function ProfileEditModal({
                 />
               </div>
             )}
+
+            {isUploading && (
+              <p className="mt-2 text-sm text-blue-600 animate-pulse">
+                📤 Mengupload foto...
+              </p>
+            )}
+
+            {uploadError && (
+              <p className="mt-2 text-sm text-red-600">❌ {uploadError}</p>
+            )}
           </div>
         </div>
 
         <div className="border-t border-gray-200 px-6 py-4">
           <button
             onClick={handleSubmit}
-            className="w-full rounded-xl bg-[#2b3d9d] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700"
+            className="w-full rounded-xl bg-[#2b3d9d] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isSaving || isUploading}
           >
-            Simpan
+            {isSaving
+              ? "Menyimpan..."
+              : isUploading
+                ? "Mengupload..."
+                : "Simpan"}
           </button>
         </div>
       </div>
