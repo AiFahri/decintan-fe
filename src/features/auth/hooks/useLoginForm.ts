@@ -3,10 +3,15 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import type { LoginFormData } from "../types/authTypes";
 import { validateEmail, validatePassword } from "../utils/authValidators";
-import { mockLogin } from "@/data/auth.mock";
+import { signIn } from "@/api/endpoints/auth";
+import { useAuth } from "./useAuth";
+import type { AxiosError } from "axios";
+import type { ApiErrorResponse } from "../types/authTypes";
+import { checkRateLimit, clearRateLimit } from "@/utils/security";
 
 export const useLoginForm = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -27,21 +32,22 @@ export const useLoginForm = () => {
     setIsSubmitting(true);
     setFormError(null);
 
-    // Simulasi API call
+    const rateLimit = checkRateLimit("login", 5, 60000);
+    if (!rateLimit.allowed) {
+      const waitSeconds = Math.ceil((rateLimit.resetAt - Date.now()) / 1000);
+      setFormError(
+        `Terlalu banyak percobaan login. Coba lagi dalam ${waitSeconds} detik.`,
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 700));
+      const { user } = await signIn(data.email, data.password);
 
-      // Mock login with role-based redirect
-      const user = mockLogin(data.email, data.password);
+      clearRateLimit("login");
+      setUser(user);
 
-      if (!user) {
-        setFormError("Email atau password salah");
-        return;
-      }
-
-      console.log("Login success:", user);
-
-      // Role-based redirect
       if (user.role === "admin") {
         navigate("/admin/dashboard", { replace: true });
       } else if (user.role === "karyawan") {
@@ -49,8 +55,28 @@ export const useLoginForm = () => {
       } else {
         navigate("/", { replace: true });
       }
-    } catch {
-      setFormError("Terjadi kesalahan saat login. Silakan coba lagi.");
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiErrorResponse>;
+
+      if (axiosError.response) {
+        const status = axiosError.response.status;
+        const errorMessage =
+          axiosError.response.data?.message || axiosError.response.data?.error;
+
+        if (status === 401) {
+          setFormError(errorMessage || "Email atau password salah");
+        } else if (status === 400) {
+          setFormError(errorMessage || "Data tidak valid");
+        } else if (status === 500) {
+          setFormError("Terjadi kesalahan pada server");
+        } else {
+          setFormError(errorMessage || "Terjadi kesalahan saat login");
+        }
+      } else if (axiosError.request) {
+        setFormError("Tidak dapat terhubung ke server");
+      } else {
+        setFormError("Terjadi kesalahan saat login. Silakan coba lagi.");
+      }
     } finally {
       setIsSubmitting(false);
     }
