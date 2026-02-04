@@ -19,6 +19,7 @@ export const RegisterForm = () => {
       <Input
         label="Nama Lengkap"
         type="text"
+        autoComplete="name"
         placeholder="Masukkan nama lengkap Anda"
         error={errors.fullName?.message}
         {...register.fullName}
@@ -27,6 +28,7 @@ export const RegisterForm = () => {
       <Input
         label="Email"
         type="email"
+        autoComplete="email"
         placeholder="karyawan@perusahaan.com"
         error={errors.email?.message}
         {...register.email}
@@ -35,6 +37,7 @@ export const RegisterForm = () => {
       <Input
         label="Nomor Telepon"
         type="tel"
+        autoComplete="tel"
         placeholder="081234567890"
         error={errors.phone?.message}
         {...register.phone}
@@ -67,6 +70,7 @@ export const RegisterForm = () => {
       <Input
         label="Password"
         type="password"
+        autoComplete="new-password"
         placeholder="Minimal 6 karakter"
         error={errors.password?.message}
         {...register.password}
@@ -75,6 +79,7 @@ export const RegisterForm = () => {
       <Input
         label="Konfirmasi Password"
         type="password"
+        autoComplete="new-password"
         placeholder="Ulangi password Anda"
         error={errors.confirmPassword?.message}
         {...register.confirmPassword}

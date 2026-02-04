@@ -19,6 +19,7 @@ export const LoginForm = () => {
       <Input
         label="Email"
         type="email"
+        autoComplete="email"
         placeholder="karyawan@perusahaan.com"
         error={errors.email?.message}
         {...register.email}
@@ -27,6 +28,7 @@ export const LoginForm = () => {
       <Input
         label="Password"
         type="password"
+        autoComplete="current-password"
         placeholder="Masukkan password Anda"
         error={errors.password?.message}
         {...register.password}
