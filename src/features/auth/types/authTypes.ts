@@ -1,5 +1,32 @@
 export type UserRole = "karyawan" | "admin";
 
+export type ApiUserRole = "Admin" | "Employee";
+
+export interface ApiUser {
+  id: string;
+  name: string;
+  email: string;
+  role: ApiUserRole;
+  position?: string;
+  photo_url?: string;
+}
+
+export interface SignInResponse {
+  payload: {
+    token: string;
+    user: ApiUser;
+  };
+}
+
+export interface SelfSessionResponse {
+  payload: ApiUser;
+}
+
+export interface ApiErrorResponse {
+  message?: string;
+  error?: string;
+}
+
 export interface User {
   id: string;
   name: string;
