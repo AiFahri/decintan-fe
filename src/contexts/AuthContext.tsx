@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  type ReactNode,
-} from "react";
+import { createContext, useState, useEffect, type ReactNode } from "react";
 import { selfSession, signOut } from "@/api/endpoints/auth";
 import type { User } from "@/features/auth/types/authTypes";
 

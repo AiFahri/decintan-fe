@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { getCurrentUser } from "@/data/auth.mock";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import type { UserRole } from "@/features/auth/types/authTypes";
 import type { ReactNode } from "react";
 
@@ -14,17 +14,17 @@ export const ProtectedRoute = ({
   allowedRoles,
   redirectTo = "/login",
 }: ProtectedRouteProps) => {
-  const currentUser = getCurrentUser();
+  const { user, isAuthenticated } = useAuth();
 
-  if (!currentUser) {
+  if (!isAuthenticated || !user) {
     return <Navigate to={redirectTo} replace />;
   }
 
-  if (!allowedRoles.includes(currentUser.role)) {
-    if (currentUser.role === "karyawan") {
+  if (!allowedRoles.includes(user.role)) {
+    if (user.role === "karyawan") {
       return <Navigate to="/dashboard" replace />;
     }
-    if (currentUser.role === "admin") {
+    if (user.role === "admin") {
       return <Navigate to="/admin/dashboard" replace />;
     }
     return <Navigate to="/login" replace />;
